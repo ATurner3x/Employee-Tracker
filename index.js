@@ -2,6 +2,13 @@ const mysql = require('mysql2');
 require('dotenv').config();
 
 
+// Function to start the application
+function startApp() {
+  console.log('Application started');
+  
+}
+
+
 // CREATE A CONNECTION TO THE DATABASE
 const connection = mysql.createConnection({
   host: process.env.DB_HOST,
