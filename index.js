@@ -129,7 +129,7 @@ function viewAllRoles() {
 // ADD AN EMPLOYEE
 
 function addEmployee() {
-  
+
   // Prompt user for employee details
   inquirer
     .prompt([
@@ -155,6 +155,7 @@ function addEmployee() {
       },
     ])
     .then((answers) => {
+      
       // Perform database query to add the employee
       connection.query(
         'INSERT INTO employees SET ?',
@@ -162,6 +163,7 @@ function addEmployee() {
         (err, res) => {
           if (err) throw err;
           console.log('Employee added successfully!');
+
           // Go back to the main menu
           startApp();
         }
@@ -169,3 +171,103 @@ function addEmployee() {
     });
 }
 
+
+// ADD A DEPARTMENT
+
+function addDepartment() {
+
+  // Prompt user for department details
+
+  inquirer
+    .prompt({
+      name: 'name',
+      type: 'input',
+      message: 'Enter the department name:',
+    })
+    .then((answer) => {
+
+      // Perform database query to add the department
+
+      connection.query('INSERT INTO departments SET ?', answer, (err, res) => {
+        if (err) throw err;
+        console.log('Department added successfully!');
+
+        // Go back to the main menu
+        startApp();
+      });
+    });
+}
+
+// ADD A ROLE
+
+function addRole() {
+
+  // Prompt user for role details
+  inquirer
+    .prompt([
+      {
+        name: 'title',
+        type: 'input',
+        message: 'Enter the role title:',
+      },
+      {
+        name: 'salary',
+        type: 'input',
+        message: 'Enter the role salary:',
+      },
+      {
+        name: 'department_id',
+        type: 'input',
+        message: 'Enter the department ID:',
+      },
+    ])
+    .then((answers) => {
+
+      // Perform database query to add the role
+
+      connection.query('INSERT INTO roles SET ?', answers, (err, res) => {
+        if (err) throw err;
+        console.log('Role added successfully!');
+
+        // Go back to the main menu
+        startApp();
+      });
+    });
+}
+
+// UPDATE AN EMPLOYEE ROLE
+
+function updateEmployeeRole() {
+
+  // Prompt user for employee and role details
+
+  inquirer
+    .prompt([
+      {
+        name: 'employee_id',
+        type: 'input',
+        message: "Enter the employee's ID:",
+      },
+      {
+        name: 'role_id',
+        type: 'input',
+        message: 'Enter the new role ID:',
+      },
+    ])
+    .then((answers) => {
+
+      // Perform database query to update the employee's role
+
+      connection.query(
+        'UPDATE employees SET role_id = ? WHERE id = ?',
+        [answers.role_id, answers.employee_id],
+        (err, res) => {
+          if (err) throw err;
+          console.log('Employee role updated successfully!');
+          
+          // Go back to the main menu
+          startApp();
+        }
+      );
+    });
+}
