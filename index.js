@@ -94,5 +94,78 @@ function viewAllEmployees() {
   });
 }
 
+//VIEW ALL DEPARTMENTS
 
+function viewAllDepartments() {
+
+  // RETRIEVE ALL DEPARTMENTS FROM THE DATABASE
+  connection.query('SELECT * FROM departments', (err, res) => {
+    if (err) throw err;
+
+    // Display DEPARTMENTS in a table
+    console.table(res);
+
+    // Go back to the main menu
+    startApp();
+  });
+}
+
+// VIEW ALL ROLES
+
+function viewAllRoles() {
+
+  // RETRIEVE ALL ROLES FROM THE DATABASE
+  connection.query('SELECT * FROM roles', (err, res) => {
+    if (err) throw err;
+
+    //DISPLAY ROLES IN A TABLE
+    console.table(res);
+
+    // Go back to the main menu
+    startApp();
+  });
+}
+
+// ADD AN EMPLOYEE
+
+function addEmployee() {
+  
+  // Prompt user for employee details
+  inquirer
+    .prompt([
+      {
+        name: 'first_name',
+        type: 'input',
+        message: "Enter the employee's first name:",
+      },
+      {
+        name: 'last_name',
+        type: 'input',
+        message: "Enter the employee's last name:",
+      },
+      {
+        name: 'role_id',
+        type: 'input',
+        message: "Enter the employee's role ID:",
+      },
+      {
+        name: 'manager_id',
+        type: 'input',
+        message: "Enter the employee's manager ID:",
+      },
+    ])
+    .then((answers) => {
+      // Perform database query to add the employee
+      connection.query(
+        'INSERT INTO employees SET ?',
+        answers,
+        (err, res) => {
+          if (err) throw err;
+          console.log('Employee added successfully!');
+          // Go back to the main menu
+          startApp();
+        }
+      );
+    });
+}
 
