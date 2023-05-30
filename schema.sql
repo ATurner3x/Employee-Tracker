@@ -24,6 +24,12 @@ CREATE TABLE roles (
   FOREIGN KEY (department_id) REFERENCES departments(id)
 );
 
+-- Insert roles
+INSERT INTO roles (title, salary, department_id) VALUES ('Game Developer', 80000, 1);
+INSERT INTO roles (title, salary, department_id) VALUES ('Game Designer', 70000, 2);
+INSERT INTO roles (title, salary, department_id) VALUES ('QA Tester', 50000, 3);
+INSERT INTO roles (title, salary, department_id) VALUES ('Marketing Specialist', 60000, 4);
+
 -- Create employees table
 CREATE TABLE employees (
   id INT AUTO_INCREMENT PRIMARY KEY,
