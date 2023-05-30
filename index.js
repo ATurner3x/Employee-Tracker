@@ -2,6 +2,23 @@ const mysql = require('mysql2');
 const inquirer = require('inquirer');
 require('dotenv').config();
 
+// CREATE A CONNECTION TO THE DATABASE
+const connection = mysql.createConnection({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  port: 3306,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
+});
+
+
+// CONNECT TO THE DATABASE
+connection.connect((err) => {
+  if (err) throw err;
+  console.log('Connected to the database.');
+  // Call the function to start the application
+  startApp();
+});
 
 // Function to start the application
 function startApp() {
@@ -59,23 +76,23 @@ function startApp() {
     });
 }
 
-// IMPLEMENT THE FUNCTIONS FOR EACH CHOICE
+                                  // IMPLEMENT THE FUNCTIONS FOR EACH CHOICE
+
+//VIEW ALL EMPLOYEES
+
+function viewAllEmployees() {
+ 
+  // RETRIEVE ALL EMPLOYEES FROM THE DATABASE
+  connection.query('SELECT * FROM employees', (err, res) => {
+    if (err) throw err;
+    
+    //DISPLAY EMPLOYEES IN A TABLE
+    console.table(res);
+
+    // Go back to the main menu
+    startApp();
+  });
+}
 
 
-// CREATE A CONNECTION TO THE DATABASE
-const connection = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  port: 3306,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
-});
 
-
-// CONNECT TO THE DATABASE
-connection.connect((err) => {
-  if (err) throw err;
-  console.log('Connected to the database.');
-  // Call the function to start the application
-  startApp();
-});
