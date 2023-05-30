@@ -40,3 +40,9 @@ CREATE TABLE employees (
   FOREIGN KEY (role_id) REFERENCES roles(id),
   FOREIGN KEY (manager_id) REFERENCES employees(id)
 );
+
+-- Insert employees
+INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ('John', 'Smith', 1, null);
+INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ('Jane', 'Doe', 2, 1);
+INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ('Mike', 'Johnson', 3, 1);
+INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ('Emily', 'Williams', 4, 1);
