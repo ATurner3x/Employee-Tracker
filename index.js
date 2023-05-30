@@ -11,7 +11,6 @@ const connection = mysql.createConnection({
   database: process.env.DB_DATABASE,
 });
 
-
 // CONNECT TO THE DATABASE
 connection.connect((err) => {
   if (err) throw err;
@@ -22,7 +21,6 @@ connection.connect((err) => {
 
 // Function to start the application
 function startApp() {
-  
   console.log('Welcome to the Employee Tracker!');
   // Prompt the user to choose an action
   inquirer
@@ -76,198 +74,226 @@ function startApp() {
     });
 }
 
-                                  // IMPLEMENT THE FUNCTIONS FOR EACH CHOICE
-
-//VIEW ALL EMPLOYEES
-
+// VIEW ALL EMPLOYEES
 function viewAllEmployees() {
- 
   // RETRIEVE ALL EMPLOYEES FROM THE DATABASE
   connection.query('SELECT * FROM employees', (err, res) => {
     if (err) throw err;
-    
-    //DISPLAY EMPLOYEES IN A TABLE
+    // DISPLAY EMPLOYEES IN A TABLE
     console.table(res);
-
     // Go back to the main menu
     startApp();
   });
 }
 
-//VIEW ALL DEPARTMENTS
-
+// VIEW ALL DEPARTMENTS
 function viewAllDepartments() {
-
   // RETRIEVE ALL DEPARTMENTS FROM THE DATABASE
   connection.query('SELECT * FROM departments', (err, res) => {
     if (err) throw err;
-
-    // Display DEPARTMENTS in a table
+    // DISPLAY DEPARTMENTS IN A TABLE
     console.table(res);
-
     // Go back to the main menu
     startApp();
   });
 }
 
 // VIEW ALL ROLES
-
 function viewAllRoles() {
-
   // RETRIEVE ALL ROLES FROM THE DATABASE
   connection.query('SELECT * FROM roles', (err, res) => {
     if (err) throw err;
-
-    //DISPLAY ROLES IN A TABLE
+    // DISPLAY ROLES IN A TABLE
     console.table(res);
-
     // Go back to the main menu
     startApp();
   });
 }
 
 // ADD AN EMPLOYEE
-
 function addEmployee() {
-
-  // Prompt user for employee details
+  // Prompt user for action
   inquirer
-    .prompt([
-      {
-        name: 'first_name',
-        type: 'input',
-        message: "Enter the employee's first name:",
-      },
-      {
-        name: 'last_name',
-        type: 'input',
-        message: "Enter the employee's last name:",
-      },
-      {
-        name: 'role_id',
-        type: 'input',
-        message: "Enter the employee's role ID:",
-      },
-      {
-        name: 'manager_id',
-        type: 'input',
-        message: "Enter the employee's manager ID:",
-      },
-    ])
-    .then((answers) => {
-      
-      // Perform database query to add the employee
-      connection.query(
-        'INSERT INTO employees SET ?',
-        answers,
-        (err, res) => {
-          if (err) throw err;
-          console.log('Employee added successfully!');
-
-          // Go back to the main menu
-          startApp();
-        }
-      );
+    .prompt({
+      name: 'action',
+      type: 'list',
+      message: 'What would you like to do?',
+      choices: ['Add an employee', 'Go Back'],
+    })
+    .then((answer) => {
+      if (answer.action === 'Add an employee') {
+        // Prompt user for employee details
+        inquirer
+          .prompt([
+            {
+              name: 'first_name',
+              type: 'input',
+              message: "Enter the employee's first name:",
+            },
+            {
+              name: 'last_name',
+              type: 'input',
+              message: "Enter the employee's last name:",
+            },
+            {
+              name: 'role_id',
+              type: 'input',
+              message: "Enter the employee's role ID:",
+            },
+            {
+              name: 'manager_id',
+              type: 'input',
+              message: "Enter the employee's manager ID:",
+            },
+          ])
+          .then((answers) => {
+            // Perform database query to add the employee
+            connection.query(
+              'INSERT INTO employees SET ?',
+              answers,
+              (err, res) => {
+                if (err) throw err;
+                console.log('Employee added successfully!');
+                // Go back to the main menu
+                startApp();
+              }
+            );
+          });
+      } else if (answer.action === 'Go Back') {
+        // Go back to the main menu
+        startApp();
+      }
     });
 }
 
-
 // ADD A DEPARTMENT
-
 function addDepartment() {
-
-  // Prompt user for department details
-
+  // Prompt user for action
   inquirer
     .prompt({
-      name: 'name',
-      type: 'input',
-      message: 'Enter the department name:',
+      name: 'action',
+      type: 'list',
+      message: 'What would you like to do?',
+      choices: ['Add a department', 'Go Back'],
     })
     .then((answer) => {
-
-      // Perform database query to add the department
-
-      connection.query('INSERT INTO departments SET ?', answer, (err, res) => {
-        if (err) throw err;
-        console.log('Department added successfully!');
-
+      if (answer.action === 'Add a department') {
+        // Prompt user for department details
+        inquirer
+          .prompt({
+            name: 'name',
+            type: 'input',
+            message: 'Enter the department name:',
+          })
+          .then((answer) => {
+            // Perform database query to add the department
+            connection.query(
+              'INSERT INTO departments SET ?',
+              answer,
+              (err, res) => {
+                if (err) throw err;
+                console.log('Department added successfully!');
+                // Go back to the main menu
+                startApp();
+              }
+            );
+          });
+      } else if (answer.action === 'Go Back') {
         // Go back to the main menu
         startApp();
-      });
+      }
     });
 }
 
 // ADD A ROLE
-
 function addRole() {
-
-  // Prompt user for role details
+  // Prompt user for action
   inquirer
-    .prompt([
-      {
-        name: 'title',
-        type: 'input',
-        message: 'Enter the role title:',
-      },
-      {
-        name: 'salary',
-        type: 'input',
-        message: 'Enter the role salary:',
-      },
-      {
-        name: 'department_id',
-        type: 'input',
-        message: 'Enter the department ID:',
-      },
-    ])
-    .then((answers) => {
-
-      // Perform database query to add the role
-
-      connection.query('INSERT INTO roles SET ?', answers, (err, res) => {
-        if (err) throw err;
-        console.log('Role added successfully!');
-
+    .prompt({
+      name: 'action',
+      type: 'list',
+      message: 'What would you like to do?',
+      choices: ['Add a role', 'Go Back'],
+    })
+    .then((answer) => {
+      if (answer.action === 'Add a role') {
+        // Prompt user for role details
+        inquirer
+          .prompt([
+            {
+              name: 'title',
+              type: 'input',
+              message: 'Enter the role title:',
+            },
+            {
+              name: 'salary',
+              type: 'input',
+              message: 'Enter the role salary:',
+            },
+            {
+              name: 'department_id',
+              type: 'input',
+              message: 'Enter the department ID:',
+            },
+          ])
+          .then((answers) => {
+            // Perform database query to add the role
+            connection.query('INSERT INTO roles SET ?', answers, (err, res) => {
+              if (err) throw err;
+              console.log('Role added successfully!');
+              // Go back to the main menu
+              startApp();
+            });
+          });
+      } else if (answer.action === 'Go Back') {
         // Go back to the main menu
         startApp();
-      });
+      }
     });
 }
 
 // UPDATE AN EMPLOYEE ROLE
-
 function updateEmployeeRole() {
-
-  // Prompt user for employee and role details
-
+  // Prompt user for action
   inquirer
-    .prompt([
-      {
-        name: 'employee_id',
-        type: 'input',
-        message: "Enter the employee's ID:",
-      },
-      {
-        name: 'role_id',
-        type: 'input',
-        message: 'Enter the new role ID:',
-      },
-    ])
-    .then((answers) => {
-
-      // Perform database query to update the employee's role
-
-      connection.query(
-        'UPDATE employees SET role_id = ? WHERE id = ?',
-        [answers.role_id, answers.employee_id],
-        (err, res) => {
-          if (err) throw err;
-          console.log('Employee role updated successfully!');
-          
-          // Go back to the main menu
-          startApp();
-        }
-      );
+    .prompt({
+      name: 'action',
+      type: 'list',
+      message: 'What would you like to do?',
+      choices: ['Update an employee role', 'Go Back'],
+    })
+    .then((answer) => {
+      if (answer.action === 'Update an employee role') {
+        // Prompt user for employee and role details
+        inquirer
+          .prompt([
+            {
+              name: 'employee_id',
+              type: 'input',
+              message: "Enter the employee's ID:",
+            },
+            {
+              name: 'role_id',
+              type: 'input',
+              message: 'Enter the new role ID:',
+            },
+          ])
+          .then((answers) => {
+            // Perform database query to update the employee's role
+            connection.query(
+              'UPDATE employees SET role_id = ? WHERE id = ?',
+              [answers.role_id, answers.employee_id],
+              (err, res) => {
+                if (err) throw err;
+                console.log('Employee role updated successfully!');
+                // Go back to the main menu
+                startApp();
+              }
+            );
+          });
+      } else if (answer.action === 'Go Back') {
+        // Go back to the main menu
+        startApp();
+      }
     });
 }
