@@ -46,7 +46,3 @@ INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ('John
 INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ('Jane', 'Doe', 2, 1);
 INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ('Mike', 'Johnson', 3, 1);
 INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ('Emily', 'Williams', 4, 1);
-
-fesfefs
-fseffse
-fesfsese
