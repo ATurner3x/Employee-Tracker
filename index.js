@@ -31,6 +31,7 @@ function startApp() {
       choices: [
         'View all employees',
         'View employees by manager',
+        'View employees by department',
         'View all departments',
         'View all roles',
         'Add an employee',
@@ -49,6 +50,9 @@ function startApp() {
           case 'View employees by manager':
           viewEmployeesByManager();
           break;
+          case 'View employees by department':
+            viewEmployeesByDepartment();
+            break;
         case 'View all departments':
           viewAllDepartments();
           break;
@@ -126,6 +130,32 @@ function viewAllDepartments() {
     startApp();
   });
 }
+                                                  // --- -BONUS POINTS- --- //        
+// VIEW EMPLOYEES BY DEPARTMENT
+function viewEmployeesByDepartment() {
+  // Prompt user for department ID
+  inquirer
+    .prompt({
+      name: 'department_id',
+      type: 'input',
+      message: 'Enter the department ID:',
+    })
+    .then((answer) => {
+      // RETRIEVE EMPLOYEES BY DEPARTMENT ID FROM THE DATABASE
+      connection.query(
+        'SELECT * FROM employees INNER JOIN roles ON employees.role_id = roles.id WHERE roles.department_id = ?',
+        answer.department_id,
+        (err, res) => {
+          if (err) throw err;
+          // DISPLAY EMPLOYEES IN A TABLE
+          console.table(res);
+          // Go back to the main menu
+          startApp();
+        }
+      );
+    });
+}
+
 
 // VIEW ALL ROLES
 function viewAllRoles() {
