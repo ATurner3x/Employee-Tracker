@@ -30,6 +30,7 @@ function startApp() {
       message: 'What would you like to do?',
       choices: [
         'View all employees',
+        'View employees by manager',
         'View all departments',
         'View all roles',
         'Add an employee',
@@ -44,6 +45,9 @@ function startApp() {
       switch (answer.action) {
         case 'View all employees':
           viewAllEmployees();
+          break;
+          case 'View employees by manager':
+          viewEmployeesByManager();
           break;
         case 'View all departments':
           viewAllDepartments();
@@ -84,6 +88,31 @@ function viewAllEmployees() {
     // Go back to the main menu
     startApp();
   });
+}
+                                                  // --- -BONUS POINTS- --- //
+// VIEW EMPLOYEES BY MANAGER
+function viewEmployeesByManager() {
+  // Prompt user for manager ID
+  inquirer
+    .prompt({
+      name: 'manager_id',
+      type: 'input',
+      message: 'Enter the manager ID:',
+    })
+    .then((answer) => {
+      // RETRIEVE EMPLOYEES BY MANAGER ID FROM THE DATABASE
+      connection.query(
+        'SELECT * FROM employees WHERE manager_id = ?',
+        answer.manager_id,
+        (err, res) => {
+          if (err) throw err;
+          // DISPLAY EMPLOYEES IN A TABLE
+          console.table(res);
+          // Go back to the main menu
+          startApp();
+        }
+      );
+    });
 }
 
 // VIEW ALL DEPARTMENTS
@@ -144,6 +173,13 @@ function addEmployee() {
               name: 'manager_id',
               type: 'input',
               message: "Enter the employee's manager ID:",
+            },
+
+            // --- -BONUS POINTS- --- //
+            {
+              name: 'manager_id',
+              type: 'input',
+              message: "Enter the employee's manager ID (leave empty if none):",
             },
           ])
           .then((answers) => {
