@@ -32,17 +32,6 @@ open the terminal and use ' node index.js '
 
 This project is licensed under the **MIT** license. See the [LICENSE](LICENSE) file for more information.
 
-## Contributing
-
-
-
-## Tests
-
-To run tests, use the following command:
-
-```
-
-```
 
 ## Questions
 
